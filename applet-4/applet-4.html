@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applet 3 - Event Button Logger</title>
+    <title>Applet 4 - Dynamic Elements</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
@@ -24,6 +24,20 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 800px;
+        }
+        .student-card {
+            background-color: #007bff;
+            color: white;
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .student-card:hover {
+            background-color: #0056b3;
+        }
+        .search-container {
+            margin-bottom: 1.5rem;
         }
         h3 {
             color: #007bff;
@@ -81,43 +95,55 @@
             </div>
         </nav>    
 
-    <div class="container mt-5">
-        <h1>Event Button Logger</h1>
-        <p>Total Logs: <span id="log-count">0</span></p>
-        <button id="log-button" class="btn btn-primary">Click Me</button>
-        <button id="clear-button" class="btn btn-secondary">Clear</button>
-        <h3>Collected Data:</h3>
-        <div id="log-container"></div>
+    <div class="container">
+        <h1 class="mt-4">List of Enrolled Students</h1>
+        <div class="search-container">
+            <input type="text" class="form-control" placeholder="Search" id="search-input">
+        </div>
+        <div id="student-list">
+            <div class="student-card">LeBron Raymone James Sr. | Bachelor of Science in Computer Science</div>
+            <div class="student-card">Wardell Stephen Curry II | Bachelor of Science in Computer Engineering</div>
+            <div class="student-card">Kevin Wayne Durant | Bachelor of Science in Information Technology</div>
+            <div class="student-card">Victor Wembanyama | Bachelor of Science in Entertainment and Media Computing</div>
+            <div class="student-card">Paul Clifton Anthony George | Bachelor of Science in Data Science</div>
+            <div class="student-card">James Edward Harden Jr. | Bachelor of Science in Information Science</div>
+            <div class="student-card">Russell Westbrook III | Bachelor of Science in ESports</div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
     <script>
-        const logButton = document.getElementById('log-button');
-        const clearButton = document.getElementById('clear-button');
-        const logContainer = document.getElementById('log-container');
-        const logCountDisplay = document.getElementById('log-count');
+ 
+        const searchInput = document.getElementById('search-input');
+        const studentList = document.getElementById('student-list');
+        const students = [
+            "LeBron Raymone James Sr. | Bachelor of Science in Computer Science",
+            "Wardell Stephen Curry II | Bachelor of Science in Computer Engineering",
+            "Kevin Wayne Durant | Bachelor of Science in Information Technology",
+            "Victor Wembanyama | Bachelor of Science in Entertainment and Media Computing",
+            "Paul Clifton Anthony George | Bachelor of Science in Data Science",
+            "James Edward Harden Jr. | Bachelor of Science in Information Science",
+            "Russell Westbrook III | Bachelor of Science in ESports"
+        ];
 
-        let logCount = 0;
 
-        function logEvent() {
-            logCount++;
-            logCountDisplay.textContent = logCount;
+        function updateStudentList() {
+            const query = searchInput.value.toLowerCase();
+            studentList.innerHTML = ''; 
 
-            const logEntry = document.createElement('div');
-            logEntry.className = 'log-entry';
-            logEntry.textContent = `Log Entry: Button clicked at ${new Date().toLocaleTimeString()}`;
-            logContainer.appendChild(logEntry);
+            students.forEach(student => {
+                if (student.toLowerCase().includes(query)) {
+                    const div = document.createElement('div');
+                    div.className = 'student-card';
+                    div.textContent = student;
+                    studentList.appendChild(div);
+                }
+            });
         }
 
-        function clearLogs() {
-            logContainer.innerHTML = '';
-            logCount = 0;
-            logCountDisplay.textContent = logCount;
-        }
-
-        logButton.addEventListener('click', logEvent);
-        clearButton.addEventListener('click', clearLogs);
+ 
+        searchInput.addEventListener('input', updateStudentList);
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
